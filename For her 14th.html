@@ -1,0 +1,354 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>My Dearest Valentine</title>
+
+    <link
+        href="https://fonts.googleapis.com/css2?family=Dancing+Script:wght@500&family=Lato:wght@300;400&family=Playfair+Display:ital,wght@0,400;0,600;1,400&display=swap"
+        rel="stylesheet">
+
+    <style>
+        /* --- ATMOSPHERE --- */
+        body {
+            margin: 0;
+            padding: 0;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            min-height: 100vh;
+            background: linear-gradient(135deg, #dfd2d8 0%, #d8b4be 50%, #c49ea8 100%);
+            font-family: 'Playfair Display', serif;
+            overflow: hidden;
+            color: #4a4a4a;
+        }
+
+        /* --- ANIMATED FIREFLIES --- */
+        .firefly {
+            position: absolute;
+            width: 4px;
+            height: 4px;
+            background-color: #fff;
+            border-radius: 50%;
+            box-shadow: 0 0 10px 2px rgba(255, 255, 255, 0.4);
+            opacity: 0;
+            animation: fly 10s infinite ease-in-out;
+            pointer-events: none;
+        }
+
+        @keyframes fly {
+            0% {
+                transform: translate(0, 0);
+                opacity: 0;
+            }
+
+            10% {
+                opacity: 1;
+            }
+
+            90% {
+                opacity: 1;
+            }
+
+            100% {
+                transform: translate(100px, -150px);
+                opacity: 0;
+            }
+        }
+
+        /* --- THE CARD CONTAINER --- */
+        .card-frame {
+            position: relative;
+            z-index: 10;
+            background: rgba(255, 255, 255, 0.85);
+            width: 90%;
+            max-width: 420px;
+            padding: 50px 30px;
+            border-radius: 12px;
+            box-shadow: 0 20px 60px rgba(88, 54, 68, 0.15);
+            text-align: center;
+            border: 1px solid rgba(255, 255, 255, 1);
+
+            /* THIS CONTROLS THE SMOOTH ANIMATION */
+            transition: transform 1.2s cubic-bezier(0.2, 0.8, 0.2, 1), opacity 1.2s ease;
+        }
+
+        /* --- IMAGES --- */
+        .profile-crop {
+            width: 150px;
+            height: 150px;
+            object-fit: cover;
+            border-radius: 50%;
+            border: 4px solid white;
+            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.1);
+            margin-bottom: 25px;
+            animation: breathe 4s infinite ease-in-out;
+        }
+
+        @keyframes breathe {
+
+            0%,
+            100% {
+                transform: scale(1);
+            }
+
+            50% {
+                transform: scale(1.03);
+            }
+        }
+
+        /* --- TYPOGRAPHY --- */
+        h1 {
+            font-size: 2.8rem;
+            margin: 0 0 10px 0;
+            color: #5e4b52;
+            letter-spacing: -1px;
+        }
+
+        .script-text {
+            font-family: 'Dancing Script', cursive;
+            font-size: 1.5rem;
+            color: #9c7c86;
+            margin-bottom: 10px;
+        }
+
+        .poetic-quote {
+            font-family: 'Lato', sans-serif;
+            font-size: 0.9rem;
+            font-style: italic;
+            color: #777;
+            margin: 20px 0;
+            line-height: 1.6;
+        }
+
+        /* --- TIMER --- */
+        .timer-box {
+            margin: 25px 0;
+            padding: 15px 0;
+            border-top: 1px solid #eee;
+            border-bottom: 1px solid #eee;
+        }
+
+        .timer-label {
+            font-family: 'Lato', sans-serif;
+            text-transform: uppercase;
+            font-size: 0.65rem;
+            letter-spacing: 2px;
+            color: #aaa;
+            margin-bottom: 8px;
+        }
+
+        .timer-digits {
+            font-family: 'Playfair Display', serif;
+            font-variant-numeric: tabular-nums;
+            font-size: 1.1rem;
+            color: #5e4b52;
+        }
+
+        /* --- BUTTONS --- */
+        .btn-group {
+            display: flex;
+            gap: 15px;
+            justify-content: center;
+            margin-top: 30px;
+        }
+
+        button {
+            padding: 14px 28px;
+            border: none;
+            border-radius: 4px;
+            font-family: 'Lato', sans-serif;
+            text-transform: uppercase;
+            font-size: 0.75rem;
+            letter-spacing: 1.5px;
+            font-weight: bold;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+        }
+
+        .btn-yes {
+            background-color: #8fbc8f;
+            color: white;
+        }
+
+        .btn-red {
+            background-color: #922b21;
+            color: white;
+        }
+
+        button:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 15px rgba(0, 0, 0, 0.15);
+        }
+
+        /* --- SUCCESS STATE ANIMATION FIX --- */
+        #success-view {
+            display: none;
+            opacity: 0;
+            /* Start slightly smaller and lower down */
+            transform: scale(0.9) translateY(30px);
+        }
+
+        #final-photo {
+            width: 100%;
+            border-radius: 4px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+            border: 10px solid white;
+            background: white;
+            margin-bottom: 20px;
+            transform: rotate(-2deg);
+        }
+
+        /* Music Visualizer Bars */
+        .music-bars {
+            display: flex;
+            justify-content: center;
+            align-items: flex-end;
+            height: 20px;
+            gap: 3px;
+            margin-top: 15px;
+        }
+
+        .bar {
+            width: 3px;
+            background-color: #9c7c86;
+            animation: sound 0.8s infinite ease-in-out alternate;
+        }
+
+        @keyframes sound {
+            0% {
+                height: 5px;
+            }
+
+            100% {
+                height: 20px;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+    <div id="fireflies"></div>
+
+    <div class="card-frame" id="question-view">
+        <img src="https://media.tenor.com/gUiu1zyxfzYAAAAi/bear-kiss-bear-kisses.gif" class="profile-crop" alt="Us">
+
+        <div class="script-text">My Dearest,</div>
+        <h1>Will you be my Valentine?</h1>
+
+        <div class="timer-box">
+            <div class="timer-label">Our Story So Far</div>
+            <div class="timer-digits" id="timer">Loading time...</div>
+        </div>
+
+        <div class="poetic-quote">
+            "I have found the one whom my soul loves."
+        </div>
+
+        <div class="btn-group">
+            <button class="btn-yes" onclick="sayYes()">Yes, Forever</button>
+            <button class="btn-red" onclick="sayYes()">Yes, but in red</button>
+        </div>
+    </div>
+
+    <div class="card-frame" id="success-view">
+        <div class="script-text" style="font-size: 2rem; margin-bottom: 20px;">You are my greatest adventure.</div>
+
+        <img id="final-photo" src="thank_you_card.jpg" alt="Our Memory">
+
+        <div class="poetic-quote" style="margin-bottom: 5px;">Playing our song...</div>
+
+        <div class="music-bars">
+            <div class="bar" style="animation-delay: 0.1s"></div>
+            <div class="bar" style="animation-delay: 0.3s"></div>
+            <div class="bar" style="animation-delay: 0.5s"></div>
+            <div class="bar" style="animation-delay: 0.2s"></div>
+            <div class="bar" style="animation-delay: 0.4s"></div>
+        </div>
+    </div>
+
+    <video id="audio-player" style="display:none">
+        <source src="song.mp4" type="video/mp4">
+    </video>
+
+    <script>
+        // ============================================
+        // 👇 YOUR ANNIVERSARY DATE GOES HERE 👇
+        // ============================================
+        const startDate = new Date("2021-06-03");
+        // ============================================
+
+        // 1. GENERATE FIREFLIES
+        const fireflyContainer = document.getElementById('fireflies');
+        for (let i = 0; i < 20; i++) {
+            let div = document.createElement('div');
+            div.className = 'firefly';
+            div.style.left = Math.random() * 100 + 'vw';
+            div.style.top = Math.random() * 100 + 'vh';
+            div.style.animationDuration = (Math.random() * 5 + 5) + 's';
+            div.style.animationDelay = (Math.random() * 5) + 's';
+            fireflyContainer.appendChild(div);
+        }
+
+        // 2. TIME KEEPER
+        function updateTimer() {
+            const now = new Date();
+            const diff = now - startDate;
+
+            const days = Math.floor(diff / (1000 * 60 * 60 * 24));
+            const hours = Math.floor((diff / (1000 * 60 * 60)) % 24);
+            const minutes = Math.floor((diff / (1000 * 60)) % 60);
+            const seconds = Math.floor((diff / 1000) % 60);
+
+            document.getElementById("timer").innerText =
+                `${days}d  ${hours}h  ${minutes}m  ${seconds}s`;
+        }
+        setInterval(updateTimer, 1000);
+        updateTimer();
+
+        // 3. TRANSITION & AUDIO
+        function sayYes() {
+            const qView = document.getElementById('question-view');
+            const sView = document.getElementById('success-view');
+            const audio = document.getElementById('audio-player');
+
+            // Step A: Fade OUT the question
+            qView.style.opacity = '0';
+            qView.style.transform = 'translateY(-30px) scale(0.95)';
+
+            setTimeout(() => {
+                // Step B: Hide question, Prepare success view
+                qView.style.display = 'none';
+                sView.style.display = 'block';
+
+                // Step C: Force Browser Reflow (Vital for animation)
+                void sView.offsetWidth;
+
+                // Step D: Animate IN the success view
+                sView.style.opacity = '1';
+                sView.style.transform = 'translateY(0) scale(1)'; // This makes it rise and grow
+
+                // Step E: Play Audio
+                if (audio) {
+                    audio.currentTime = 259; // 4:19
+                    audio.volume = 1.0;
+                    audio.play().catch(e => console.log("Playback failed:", e));
+
+                    audio.ontimeupdate = function () {
+                        if (audio.currentTime >= 291) { // 4:51
+                            audio.pause();
+                            audio.currentTime = 259;
+                        }
+                    };
+                }
+            }, 800); // Wait for the first fade out to finish
+        }
+    </script>
+</body>
+
+</html>
